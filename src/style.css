@@ -1,0 +1,125 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+    font-weight: 450;
+    font-style: normal;
+}
+
+body {
+    background-color: #d1d1d1;
+}
+
+.main-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-content-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.icons-container {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+}
+
+.icon {
+    width: 27px;
+}
+
+#demo_button {
+    width: 100%;
+    padding: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 17px;
+    background: rgba(0,0,0,0);
+    border-width: 2px;
+}
+
+label {
+    width: 100%;
+    padding: 17px 15px 15px 15px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 17px;
+    background-color: black;
+    color: white;
+    mix-blend-mode: darken;
+}
+
+.volume-container {
+    display: none; /* set to flex in js */ 
+    justify-content: center;
+    gap: 10px;
+    padding-top: 5px;
+    color: #424242;
+}
+
+#volume_slider {
+    appearance: none;
+    background: transparent; 
+    outline: none;
+    height: 22px;
+}
+
+#volume_slider::-webkit-slider-runnable-track {
+    height: 10px; 
+    width: 15px;
+    background: #424242; 
+    border-radius: 5px; 
+}
+
+#volume_slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 10px; 
+    width: 15px; 
+    background: #ffffff; 
+    border-radius: 5px; 
+    cursor: pointer;
+    margin-top: -0.5px; 
+}
+
+.exit-container {
+    display: none; /* set to flex in js */ 
+    justify-content: center;
+    align-items: center;
+}
+
+#main_menu_button {
+    background: none;
+    border: none;
+    color: #5c5c5c;
+    font-size: 15px;
+    cursor: pointer;
+    padding-top: 0px;
+}
+
+#main-scene {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
