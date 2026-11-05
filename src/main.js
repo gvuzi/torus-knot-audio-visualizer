@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xd1d1d1); 
+scene.background = new THREE.Color(0xd1d1d1);
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.z = 50;
 const renderer = new THREE.WebGLRenderer({
@@ -10,12 +10,12 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById("main-scene").appendChild( renderer.domElement );
 
 // torus knot geometry implementation
-let geometry = new THREE.TorusKnotGeometry(14, 3, 200, 20); 
-const material = new THREE.PointsMaterial({ 
+let geometry = new THREE.TorusKnotGeometry(14, 3, 200, 20);
+const material = new THREE.PointsMaterial({
 	size: 0.4,
   vertexColors: true
-}); 
-const torusKnot = new THREE.Points(geometry, material); 
+});
+const torusKnot = new THREE.Points(geometry, material);
 torusKnot.position.set(0,0,0);
 scene.add(torusKnot);
 
@@ -36,7 +36,7 @@ const volume_slider = document.getElementById("volume_slider");
 const volume_label = document.getElementById("volume");
 
 const demo_button = document.getElementById('demo_button');
-demo_button.addEventListener('click', demoScene); 
+demo_button.addEventListener('click', demoScene);
 
 const input = document.getElementById("audio_file");
 input.addEventListener("change", audioScene);
@@ -61,7 +61,7 @@ volume_slider.oninput = function() {
     volume = this.value / 100;
   }
 
-  
+
 setToWhite();
 calculateRings();
 
@@ -70,25 +70,25 @@ calculateRings();
 function setToWhite() {
     // pushes white r,g,b values into each row in 2D "colors" array (4221 * 3 = 12663 rgb values for mapping of torus knot)
     for(let i = 0; i < points; i++) {
-            colors.push([1.0, 1.0, 1.0]); 
+            colors.push([1.0, 1.0, 1.0]);
         }
         arrayFlat = colors.flat();
         geometry.setAttribute('color', new THREE.Float32BufferAttribute(arrayFlat,3));
 }
 
 function calculateRings() {
-    // each "ring" essentially has 21 points, with 19 points being used for the ring and 2 points being "gaps", with the first point starting at point 22 
+    // each "ring" essentially has 21 points, with 19 points being used for the ring and 2 points being "gaps", with the first point starting at point 22
     total_rings = (points - 22) / 21; // 199.952380952
     total_rings = Math.ceil(total_rings);
 
-    let starting_index = 22; 
+    let starting_index = 22;
     let ending_index = 0;
-    
+
     for (let i = 0; i < total_rings; i++) {
         ending_index = starting_index + 19;
         rings.push([starting_index, ending_index]);
         starting_index += 21;
-    }  
+    }
 
 }
 
@@ -97,12 +97,27 @@ function updateScene() {
         mainScene();
         audio_played = 0;
     }
-    
+
     if (demo_played == 1 && !sound.isPlaying) {
         mainScene();
         main_menu_button.style.paddingTop = '0px';
         demo_played = 0;
     }
+}
+
+function playTrack(audioSource) {
+  volume_slider.value = 100;
+  volume_slider.value = 100;
+  volume_container.style.display = 'flex';
+  exit_container.style.display = 'flex';
+  main_container.style.display = 'none';
+  icons_container.style.display = 'none';
+  audioLoader.load(audioSource, function(buffer) {
+      sound.setBuffer(buffer);
+      volume = 1.0;
+      sound.play();
+      audio_played = 1;
+  });
 }
 
 
@@ -117,33 +132,13 @@ function mainScene() {
 }
 
 function audioScene() {
-    volume_slider.value = 100;
-    volume_label.innerHTML = "100%";
-    volume_container.style.display = 'flex';
-    exit_container.style.display = 'flex';
-    main_container.style.display = 'none';
-    icons_container.style.display = 'none';
-    const user_audio_file = URL.createObjectURL(this.files[0]);
-    audioLoader.load(user_audio_file, function(buffer) {
-        sound.setBuffer(buffer);
-        volume = 1.0;
-        sound.play();
-        audio_played = 1;
-    });
+  const user_audio_file = URL.createObjectURL(this.files[0]);
+  playTrack(user_audio_file)
 }
 
 function demoScene() {
-    exit_container.style.display = 'flex';
-    main_container.style.display = 'none';
-    icons_container.style.display = 'none';
-    main_menu_button.style.paddingTop = '5px';
-    audioLoader.load('/ginseng.mp3', function(buffer) {
-        sound.setBuffer(buffer);
-        volume = 1.25;
-        sound.play();
-        demo_played = 1;
-    });
-} 
+  playTrack('/ginseng.mp3')
+}
 
 
 /* animation functions */
@@ -153,7 +148,7 @@ function ringAnimation() {
             colors[j] = colors[j-21]; //shifts every ring's rgb value to the right
             }
     }
-    arrayFlat = colors.flat(); 
+    arrayFlat = colors.flat();
     geometry.setAttribute('color', new THREE.Float32BufferAttribute(arrayFlat,3));
 }
 
@@ -170,16 +165,16 @@ function animate() {
     sound.setVolume(volume);
     updateScene();
 
-    if (data > 90) { 
+    if (data > 90) {
         for (let i = rings[0][0]; i <= rings[0][1]; i++) {
-            colors[i] = [1.0, 0.0, 0.0]; // red 
+            colors[i] = [1.0, 0.0, 0.0]; // red
             }
         }
     else if (data > 70  && data < 90) {
         for (let i = rings[0][0]; i <= rings[0][1]; i++) {
             colors[i] = [0.0, random_g, 1.0]; // gradient of blue
             }
-        }   
+        }
 
     else {
         for (let i = rings[0][0]; i <= rings[0][1]; i++) {
