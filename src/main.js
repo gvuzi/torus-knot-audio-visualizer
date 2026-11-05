@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xd1d1d1);
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -7,7 +9,14 @@ const renderer = new THREE.WebGLRenderer({
     powerPreference: "high-performance"
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
-document.getElementById("main-scene").appendChild( renderer.domElement );
+document.getElementById("main-scene").appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.enableZoom = false;
+controls.enablePan = false;
+controls.autoRotate = false;
 
 // torus knot geometry implementation
 let geometry = new THREE.TorusKnotGeometry(14, 3, 200, 20);
@@ -153,41 +162,42 @@ function ringAnimation() {
 }
 
 function animate() {
-    let data = analyser.getAverageFrequency();
-    let random_g = Math.random();
-
     requestAnimationFrame(animate);
-    delta += clock.getDelta();
+    const dt = clock.getDelta();
+    delta += dt;
 
-    if (delta > interval) {
+    controls.update();
 
-    ringAnimation();
-    sound.setVolume(volume);
-    updateScene();
+   	torusKnot.rotation.x += 0.15 * dt;
+    torusKnot.rotation.y += 0.15 * dt;
 
-    if (data > 90) {
+  if (delta > interval) {
+      let data = analyser.getAverageFrequency();
+      let random_g = Math.random();
+      ringAnimation();
+      sound.setVolume(volume);
+      updateScene();
+
+      if (data > 90) {
         for (let i = rings[0][0]; i <= rings[0][1]; i++) {
-            colors[i] = [1.0, 0.0, 0.0]; // red
-            }
+          colors[i] = [1.0, 0.0, 0.0]; // red
         }
-    else if (data > 70  && data < 90) {
+      }
+      else if (data > 70 && data < 90) {
         for (let i = rings[0][0]; i <= rings[0][1]; i++) {
-            colors[i] = [0.0, random_g, 1.0]; // gradient of blue
-            }
+          colors[i] = [0.0, random_g, 1.0]; // gradient of blue
         }
+      }
 
-    else {
+      else {
         for (let i = rings[0][0]; i <= rings[0][1]; i++) {
-            colors[i] = [1.0, 1.0, 1.0]; // white
-            }
+          colors[i] = [1.0, 1.0, 1.0]; // white
         }
-
-	torusKnot.rotation.x += 0.003;
-	torusKnot.rotation.y += 0.003;
+      }
+      delta = delta % interval;
+    }
 
     renderer.render(scene, camera);
-
-    delta = delta % interval;
-    }
 }
-requestAnimationFrame(animate)
+
+animate();
