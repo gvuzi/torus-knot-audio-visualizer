@@ -23,86 +23,121 @@ body {
 .main-content-container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: clamp(8px, 1.8vh, 16px);
+    padding: 0 1rem;
+}
+
+h1 {
+    font-size: clamp(1.5rem, 4.5vw, 2.2rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: #111111;
 }
 
 .buttons-container {
     display: flex;
     justify-content: center;
-    gap: 5px;
+    gap: clamp(10px, 2vw, 12px);
+    width: 100%;
 }
 
 .icons-container {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
     display: flex;
     justify-content: center;
     gap: 7px;
+    margin-top: clamp(6px, 1.2vh, 6px);
 }
 
 .icon {
-    width: 27px;
+    width: clamp(24px, 2.6vw, 24px);
+    height: clamp(24px, 2.6vw, 24px);
+    color: black;
 }
 
-#demo_button {
+.icon svg {
     width: 100%;
-    padding: 15px;
+    height: 100%;
+    fill: currentColor;
+}
+
+.icon svg:hover {
+    opacity: .5;
+}
+
+label, #demo_button {
+    flex: 1;
+    max-width: clamp(130px, 16vw, 160px);
+    border: 2px solid black;
+    text-align: center;
     border-radius: 5px;
     cursor: pointer;
     font-weight: 700;
-    font-size: 17px;
-    background: rgba(0,0,0,0);
-    border-width: 2px;
+    font-size: clamp(14px, 1.8vw, 15px);
+    padding: clamp(11px, 1.5vh, 14px) 0;
 }
 
 label {
-    width: 100%;
-    padding: 17px 15px 15px 15px;
-    border-radius: 5px;
-    text-align: center;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 17px;
-    background-color: black;
+    background: black;
     color: white;
     mix-blend-mode: darken;
 }
 
+#demo_button {
+    background: transparent;
+    color: black;
+}
+
 .volume-container {
-    display: none; /* set to flex in js */ 
+    display: none; /* set to flex in js */
     justify-content: center;
     gap: 10px;
     padding-top: 5px;
     color: #424242;
+    font-size: clamp(12px, 1.2vw, 14px);
 }
 
 #volume_slider {
     appearance: none;
-    background: transparent; 
+    background: transparent;
     outline: none;
     height: 22px;
 }
 
 #volume_slider::-webkit-slider-runnable-track {
-    height: 10px; 
-    width: 15px;
-    background: #424242; 
-    border-radius: 5px; 
+    height: 10px;
+    width: 100%;
+    background: #424242;
+    border-radius: 5px;
 }
 
 #volume_slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    height: 10px; 
-    width: 15px; 
-    background: #ffffff; 
-    border-radius: 5px; 
+    height: 10px;
+    width: 15px;
+    background: white;
+    border-radius: 5px;
     cursor: pointer;
-    margin-top: -0.5px; 
+}
+
+/* firefox */
+#volume_slider::-moz-range-track {
+    height: 10px;
+    background: #424242;
+    border-radius: 5px;
+}
+
+#volume_slider::-moz-range-thumb {
+    height: 10px;
+    width: 15px;
+    background: white;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .exit-container {
-    display: none; /* set to flex in js */ 
+    display: none; /* set to flex in js */
+    top: clamp(20px, 3.2vh, 28px);
     justify-content: center;
     align-items: center;
 }
@@ -111,7 +146,7 @@ label {
     background: none;
     border: none;
     color: #5c5c5c;
-    font-size: 15px;
+    font-size: clamp(12px, 1.2vw, 14px);
     cursor: pointer;
     padding-top: 0px;
 }
